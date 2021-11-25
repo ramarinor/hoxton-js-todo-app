@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Todo State</title>
+		<meta charset="UTF-8" />
+		<script defer src="index.js"></script>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+
+	<body>
+		<main>
+			<section class="options-section">
+				<h2 class="title">OPTIONS</h2>
+				<label>
+					Show completed
+					<input class="show-completed-checkbox" type="checkbox" checked />
+				</label>
+			</section>
+			<section class="add-todo-section">
+				<h2 class="title">ADD ITEM</h2>
+				<form class="add-item">
+					<input class="text-input" type="text" name="text" required minlength="3" />
+					<button type="submit">Add</button>
+				</form>
+			</section>
+			<section class="todo-section">
+				<h2 class="title">TODO</h2>
+				<ul class="todo-list"></ul>
+			</section>
+			<section class="completed-section">
+				<h2 class="title">COMPLETED</h2>
+				<ul class="completed-list"></ul>
+			</section>
+		</main>
+	</body>
+</html>
