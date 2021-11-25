@@ -22,24 +22,24 @@ const state = {
 	],
 };
 
-function render(state) {
-	renderCompleteTodos(state);
-	renderIncomplteteTodos(state);
+function render() {
+	renderCompleteTodos();
+	renderIncomplteteTodos();
 }
 
-function renderCompleteTodos(state) {
+function renderCompleteTodos() {
 	const todoListUl = document.querySelector(".todo-list");
 	todoListUl.innerHTML = "";
 	const incompleteTodos = state.todos.filter(function (todo) {
 		return !todo.completed;
 	});
 	for (const todo of incompleteTodos) {
-		const liEl = createTodoLiElement(todo);
+		const liEl = createTodoLiEl(todo);
 		todoListUl.append(liEl);
 	}
 }
 
-function renderIncomplteteTodos(state) {
+function renderIncomplteteTodos() {
 	const completedSection = document.querySelector(".completed-section");
 	if (state.showTodos) {
 		completedSection.style.display = "block";
@@ -49,7 +49,7 @@ function renderIncomplteteTodos(state) {
 			return todo.completed;
 		});
 		for (const todo of completeTodos) {
-			const liEl = createTodoLiElement(todo);
+			const liEl = createTodoLiEl(todo);
 			completedListUl.append(liEl);
 		}
 	} else {
@@ -57,7 +57,7 @@ function renderIncomplteteTodos(state) {
 	}
 }
 
-function createTodoLiElement(todo) {
+function createTodoLiEl(todo) {
 	const liEl = document.createElement("li");
 	liEl.classList.add("todo");
 
@@ -67,6 +67,11 @@ function createTodoLiElement(todo) {
 	checkboxEl.className = "completed-checkbox";
 	checkboxEl.setAttribute("type", "checkbox");
 	checkboxSection.append(checkboxEl);
+
+	checkboxEl.addEventListener("click", function () {
+		toggleTodo(todo);
+		render();
+	});
 
 	const textSection = document.createElement("div");
 	textSection.className = "text-section";
@@ -91,11 +96,6 @@ function createTodoLiElement(todo) {
 		liEl.classList.add("completed");
 		checkboxEl.checked = true;
 	}
-
-	checkboxEl.addEventListener("click", function () {
-		toggleTodo(todo);
-		render(state);
-	});
 	return liEl;
 }
 function toggleTodo(todo) {
@@ -103,10 +103,28 @@ function toggleTodo(todo) {
 	state.todos[indexToUpdate].completed = !state.todos[indexToUpdate].completed;
 }
 
-render(state);
+function addNewTodo(title) {
+	const newTodo = {
+		title: title,
+		completed: false,
+		tag: "Test",
+		user: "Rinor",
+	};
+	state.todos.unshift(newTodo);
+}
+
+render();
 
 const showCompletedCheckbox = document.querySelector(".show-completed-checkbox");
 showCompletedCheckbox.addEventListener("click", function () {
 	state.showTodos = !state.showTodos;
-	render(state);
+	render();
+});
+
+const addForm = document.querySelector(".add-item");
+addForm.addEventListener("submit", function (event) {
+	event.preventDefault();
+	addNewTodo(addForm.text.value);
+	addForm.reset();
+	render();
 });
