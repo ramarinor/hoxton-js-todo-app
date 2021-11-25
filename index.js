@@ -69,7 +69,7 @@ function createTodoLiEl(todo) {
 	checkboxSection.append(checkboxEl);
 
 	checkboxEl.addEventListener("click", function () {
-		toggleTodo(todo);
+		todo.completed = !todo.completed;
 		render();
 	});
 
@@ -97,10 +97,6 @@ function createTodoLiEl(todo) {
 		checkboxEl.checked = true;
 	}
 	return liEl;
-}
-function toggleTodo(todo) {
-	const indexToUpdate = state.todos.indexOf(todo);
-	state.todos[indexToUpdate].completed = !state.todos[indexToUpdate].completed;
 }
 
 function addNewTodo(title) {
