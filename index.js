@@ -1,15 +1,15 @@
-state = {
+const state = {
 	showTodos: true,
 	todos: [
 		{
 			title: "Buy Milk",
-			completed: false,
+			completed: true,
 			tag: "Test",
 			user: "Rinor",
 		},
 		{
 			title: "Do something",
-			completed: true,
+			completed: false,
 			tag: "Test",
 			user: "Rinor",
 		},
@@ -21,40 +21,73 @@ state = {
 		},
 	],
 };
-{
-	/* <div class="completed-section">
-		<input class="completed-checkbox" type="checkbox" />
-	</div>
-	<div class="text-section">
-		<p class="text">Go shopping</p>
-	</div>
-	<div class="button-section">
-		<button class="edit">Edit</button>
-		<button class="delete">Delete</button>
-	</div> */
-}
+
 function createTodoLiElement(todo) {
 	const liEl = document.createElement("li");
-	liEl.classList.add(todo);
+	liEl.classList.add("todo");
 	if (todo.completed) {
 		liEl.classList.add("completed");
 	}
+
+	const checkboxSection = document.createElement("div");
+	checkboxSection.className = "checkbox-section";
+	const checkboxEl = document.createElement("input");
+	checkboxEl.className = "completed-checkbox";
+	checkboxEl.setAttribute("type", "checkbox");
+	checkboxSection.append(checkboxEl);
+
+	const textSection = document.createElement("div");
+	textSection.className = "text-section";
+	const pEl = document.createElement("p");
+	pEl.textContent = todo.title;
+	textSection.append(pEl);
+
+	const buttonSection = document.createElement("div");
+	buttonSection.className = "button-section";
+	const editButton = document.createElement("button");
+	editButton.className = "edit";
+	editButton.textContent = "Edit";
+	const deleteButton = document.createElement("button");
+	deleteButton.className = "delete";
+	deleteButton.textContent = "delete";
+	buttonSection.append(editButton, deleteButton);
+
+	liEl.append(checkboxSection, textSection, buttonSection);
+	return liEl;
 }
 
-function render() {
+function render(state) {
+	renderCompleteTodos(state);
+	renderIncomplteteTodos(state);
+}
+
+function renderCompleteTodos(state) {
 	const todoListUl = document.querySelector(".todo-list");
-	const completedListUl = document.querySelector(".completed-list");
-	incompleteTodos = state.todos.filter(function (todo) {
+	const incompleteTodos = state.todos.filter(function (todo) {
 		return !todo.completed;
 	});
-	completeTodos = state.todos.filter(function (todo) {
-		return todo.completed;
-	});
 	for (const todo of incompleteTodos) {
-	}
-	for (const todo of completeTodos) {
-		console.log(todo);
+		const liEl = createTodoLiElement(todo);
+		console.log(liEl);
+		todoListUl.append(liEl);
 	}
 }
 
-render();
+function renderIncomplteteTodos(state) {
+	const completedSection = document.querySelector(".completed-section");
+	if (state.showTodos) {
+		completedSection.style.display = "block";
+		const completedListUl = document.querySelector(".completed-list");
+		const completeTodos = state.todos.filter(function (todo) {
+			return todo.completed;
+		});
+		for (const todo of completeTodos) {
+			const liEl = createTodoLiElement(todo);
+			completedListUl.append(liEl);
+		}
+	} else {
+		completedSection.style.display = "none";
+	}
+}
+
+render(state);

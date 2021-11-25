@@ -72,7 +72,7 @@ ul {
 	grid-gap: 3px;
 }
 
-.todo .completed-section,
+.todo .checkbox-section,
 .todo .button-section {
 	display: grid;
 	place-content: center;
