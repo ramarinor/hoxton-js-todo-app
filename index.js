@@ -22,6 +22,41 @@ const state = {
 	],
 };
 
+function render(state) {
+	renderCompleteTodos(state);
+	renderIncomplteteTodos(state);
+}
+
+function renderCompleteTodos(state) {
+	const todoListUl = document.querySelector(".todo-list");
+	todoListUl.innerHTML = "";
+	const incompleteTodos = state.todos.filter(function (todo) {
+		return !todo.completed;
+	});
+	for (const todo of incompleteTodos) {
+		const liEl = createTodoLiElement(todo);
+		todoListUl.append(liEl);
+	}
+}
+
+function renderIncomplteteTodos(state) {
+	const completedSection = document.querySelector(".completed-section");
+	if (state.showTodos) {
+		completedSection.style.display = "block";
+		const completedListUl = document.querySelector(".completed-list");
+		completedListUl.innerHTML = "";
+		const completeTodos = state.todos.filter(function (todo) {
+			return todo.completed;
+		});
+		for (const todo of completeTodos) {
+			const liEl = createTodoLiElement(todo);
+			completedListUl.append(liEl);
+		}
+	} else {
+		completedSection.style.display = "none";
+	}
+}
+
 function createTodoLiElement(todo) {
 	const liEl = document.createElement("li");
 	liEl.classList.add("todo");
@@ -56,38 +91,10 @@ function createTodoLiElement(todo) {
 	return liEl;
 }
 
-function render(state) {
-	renderCompleteTodos(state);
-	renderIncomplteteTodos(state);
-}
-
-function renderCompleteTodos(state) {
-	const todoListUl = document.querySelector(".todo-list");
-	const incompleteTodos = state.todos.filter(function (todo) {
-		return !todo.completed;
-	});
-	for (const todo of incompleteTodos) {
-		const liEl = createTodoLiElement(todo);
-		console.log(liEl);
-		todoListUl.append(liEl);
-	}
-}
-
-function renderIncomplteteTodos(state) {
-	const completedSection = document.querySelector(".completed-section");
-	if (state.showTodos) {
-		completedSection.style.display = "block";
-		const completedListUl = document.querySelector(".completed-list");
-		const completeTodos = state.todos.filter(function (todo) {
-			return todo.completed;
-		});
-		for (const todo of completeTodos) {
-			const liEl = createTodoLiElement(todo);
-			completedListUl.append(liEl);
-		}
-	} else {
-		completedSection.style.display = "none";
-	}
-}
-
 render(state);
+
+const showCompletedCheckbox = document.querySelector(".show-completed-checkbox");
+showCompletedCheckbox.addEventListener("click", function () {
+	state.showTodos = !state.showTodos;
+	render(state);
+});
