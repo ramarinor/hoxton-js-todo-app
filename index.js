@@ -60,9 +60,6 @@ function renderIncomplteteTodos(state) {
 function createTodoLiElement(todo) {
 	const liEl = document.createElement("li");
 	liEl.classList.add("todo");
-	if (todo.completed) {
-		liEl.classList.add("completed");
-	}
 
 	const checkboxSection = document.createElement("div");
 	checkboxSection.className = "checkbox-section";
@@ -74,6 +71,7 @@ function createTodoLiElement(todo) {
 	const textSection = document.createElement("div");
 	textSection.className = "text-section";
 	const pEl = document.createElement("p");
+	pEl.className = "text";
 	pEl.textContent = todo.title;
 	textSection.append(pEl);
 
@@ -88,7 +86,21 @@ function createTodoLiElement(todo) {
 	buttonSection.append(editButton, deleteButton);
 
 	liEl.append(checkboxSection, textSection, buttonSection);
+
+	if (todo.completed) {
+		liEl.classList.add("completed");
+		checkboxEl.checked = true;
+	}
+
+	checkboxEl.addEventListener("click", function () {
+		updateTodos(todo);
+		render(state);
+	});
 	return liEl;
+}
+function updateTodos(todo) {
+	const indexToUpdate = state.todos.indexOf(todo);
+	state.todos[indexToUpdate].completed = !state.todos[indexToUpdate].completed;
 }
 
 render(state);
