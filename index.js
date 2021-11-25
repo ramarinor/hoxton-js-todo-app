@@ -93,12 +93,12 @@ function createTodoLiElement(todo) {
 	}
 
 	checkboxEl.addEventListener("click", function () {
-		updateTodos(todo);
+		toggleTodo(todo);
 		render(state);
 	});
 	return liEl;
 }
-function updateTodos(todo) {
+function toggleTodo(todo) {
 	const indexToUpdate = state.todos.indexOf(todo);
 	state.todos[indexToUpdate].completed = !state.todos[indexToUpdate].completed;
 }
