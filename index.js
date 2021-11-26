@@ -37,10 +37,10 @@ function getCompletedTodos() {
 
 //rendering functions
 function render() {
-	renderCompleteTodos();
-	renderIncomplteteTodos();
+	renderIncompleteTodos();
+	renderCompltetedTodos();
 }
-function renderCompleteTodos() {
+function renderIncompleteTodos() {
 	todoListUl.innerHTML = "";
 	const incompleteTodos = getincompleteTodos();
 	for (const todo of incompleteTodos) {
@@ -49,7 +49,7 @@ function renderCompleteTodos() {
 	}
 }
 
-function renderIncomplteteTodos() {
+function renderCompltetedTodos() {
 	if (state.showCompltedTodos) {
 		completedSection.style.display = "block";
 		completedListUl.innerHTML = "";
@@ -147,5 +147,5 @@ addForm.addEventListener("submit", function (event) {
 	};
 	addTodo(newTodo);
 	addForm.reset();
-	render();
+	renderIncompleteTodos();
 });
