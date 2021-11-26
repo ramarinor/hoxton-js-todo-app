@@ -20,18 +20,25 @@ const state = {
 			user: "Rinor",
 		},
 	],
+	searchText: "",
 };
 
 //derived States
 function getincompleteTodos() {
-	return state.todos.filter(function (todo) {
+	return getSelectedTodos().filter(function (todo) {
 		return !todo.completed;
 	});
 }
 
 function getCompletedTodos() {
-	return state.todos.filter(function (todo) {
+	return getSelectedTodos().filter(function (todo) {
 		return todo.completed;
+	});
+}
+
+function getSelectedTodos() {
+	return state.todos.filter(function (todo) {
+		return todo.title.toLowerCase().includes(state.searchText);
 	});
 }
 
@@ -124,6 +131,10 @@ function toggleShowCompletedTodos() {
 	state.showCompltedTodos = !state.showCompltedTodos;
 }
 
+function changeSearchText(text) {
+	state.searchText = text;
+}
+
 const todoListUl = document.querySelector(".todo-list");
 const completedSection = document.querySelector(".completed-section");
 const completedListUl = document.querySelector(".completed-list");
@@ -148,4 +159,16 @@ addForm.addEventListener("submit", function (event) {
 	addTodo(newTodo);
 	addForm.reset();
 	renderIncompleteTodos();
+});
+
+const searchForm = document.querySelector(".search-todos");
+searchForm.addEventListener("submit", function (event) {
+	event.preventDefault();
+	changeSearchText(searchForm.search.value);
+	render();
+});
+
+searchForm.search.addEventListener("keyup", function () {
+	changeSearchText(searchForm.search.value);
+	render();
 });

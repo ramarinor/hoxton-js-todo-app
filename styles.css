@@ -36,10 +36,16 @@ button {
 	background: none;
 	color: #000000cc;
 }
+button:hover {
+	cursor: pointer;
+	background-color: #000000cc;
+	color: white;
+}
 
-form.add-item {
+form.add-item,
+form.search-todos {
 	display: grid;
-	grid-template-columns: 1fr 50px;
+	grid-template-columns: 1fr auto;
 }
 
 form .text-input {
