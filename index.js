@@ -4,19 +4,19 @@ const state = {
 		{
 			title: "Buy Milk",
 			completed: true,
-			tag: "Test",
+			tags: [],
 			user: "Rinor",
 		},
 		{
 			title: "Do something",
 			completed: false,
-			tag: "Test",
+			tags: ["Important", "X-mas", "Optional"],
 			user: "Rinor",
 		},
 		{
 			title: "Sleep",
 			completed: true,
-			tag: "Test",
+			tags: ["Food, X-mas"],
 			user: "Rinor",
 		},
 	],
@@ -38,8 +38,19 @@ function getCompletedTodos() {
 
 function getSelectedTodos() {
 	return state.todos.filter(function (todo) {
-		return todo.title.toLowerCase().includes(state.searchText);
+		return todo.title.toLowerCase().includes(state.searchText.toLowerCase());
 	});
+}
+function getAllTags() {
+	const allTags = [];
+
+	for (const todo of state.todos) {
+		for (const tag of todo.tags) {
+			if (!allTags.includes(tag)) allTags.push(tag);
+		}
+	}
+
+	return allTags;
 }
 
 //rendering functions
