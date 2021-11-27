@@ -2,25 +2,44 @@ const state = {
 	showCompltedTodos: true,
 	todos: [
 		{
-			title: "Buy Milk",
+			title: "task1",
 			completed: true,
 			tags: [],
 			user: "Rinor",
 		},
 		{
-			title: "Do something",
+			title: "task2",
 			completed: false,
 			tags: ["Important", "X-mas", "Optional"],
 			user: "Rinor",
 		},
 		{
-			title: "Sleep",
+			title: "task3",
 			completed: true,
-			tags: ["Food, X-mas"],
+			tags: ["Food", "X-mas"],
+			user: "Rinor",
+		},
+		{
+			title: "task4",
+			completed: true,
+			tags: ["Curriculum", "Hoxton", "Optional"],
+			user: "Rinor",
+		},
+		{
+			title: "task5",
+			completed: false,
+			tags: ["Hoxton", "X-mas"],
+			user: "Rinor",
+		},
+		{
+			title: "task 6",
+			completed: true,
+			tags: ["Food", "Javascript"],
 			user: "Rinor",
 		},
 	],
 	searchText: "",
+	selectedTags: [],
 };
 
 //derived States
@@ -37,9 +56,18 @@ function getCompletedTodos() {
 }
 
 function getSelectedTodos() {
-	return state.todos.filter(function (todo) {
+	let selectedTodos = state.todos.filter(function (todo) {
 		return todo.title.toLowerCase().includes(state.searchText.toLowerCase());
 	});
+
+	if (state.selectedTags.length > 0) {
+		selectedTodos = selectedTodos.filter(function (todo) {
+			return todo.tags.some(function (tag) {
+				return state.selectedTags.includes(tag);
+			});
+		});
+	}
+	return selectedTodos;
 }
 function getAllTags() {
 	const allTags = [];
@@ -80,6 +108,30 @@ function renderCompltetedTodos() {
 		completedSection.style.display = "none";
 	}
 }
+function renderTags() {
+	const allTags = getAllTags();
+	tagsDiv.innerHTML = "";
+	for (const tag of allTags) {
+		const tagLabel = document.createElement("label");
+		tagLabel.innerText = tag;
+		tagLabel.className = "tag-label";
+		const tagCheckbox = document.createElement("input");
+		tagCheckbox.setAttribute("type", "checkbox");
+		tagCheckbox.addEventListener("click", function () {
+			if (tagCheckbox.checked) {
+				state.selectedTags.push(tag);
+			} else {
+				state.selectedTags = state.selectedTags.filter(function (targetTag) {
+					return targetTag !== tag;
+				});
+			}
+			render();
+		});
+		tagLabel.prepend(tagCheckbox);
+		tagsDiv.append(tagLabel);
+	}
+}
+
 // create todo list element function
 function createTodoLiEl(todo) {
 	const liEl = document.createElement("li");
@@ -146,11 +198,14 @@ function changeSearchText(text) {
 	state.searchText = text;
 }
 
+//
 const todoListUl = document.querySelector(".todo-list");
 const completedSection = document.querySelector(".completed-section");
 const completedListUl = document.querySelector(".completed-list");
+const tagsDiv = document.querySelector(".tags");
 
 render();
+renderTags();
 
 const showCompletedCheckbox = document.querySelector(".show-completed-checkbox");
 showCompletedCheckbox.addEventListener("click", function () {
