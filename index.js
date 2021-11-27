@@ -161,7 +161,12 @@ function createTodoLiEl(todo) {
 	textSection.className = "text-section";
 	const pEl = document.createElement("p");
 	pEl.className = "text";
-	pEl.textContent = todo.title;
+	pEl.textContent = `${todo.title} `;
+	for (const tag of todo.tags) {
+		const emEl = document.createElement("em");
+		emEl.textContent = `(${tag})`;
+		pEl.append(emEl);
+	}
 	textSection.append(pEl);
 
 	const buttonSection = document.createElement("div");
