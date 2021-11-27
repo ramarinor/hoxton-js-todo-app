@@ -11,13 +11,13 @@ const state = {
 			title: "task2",
 			completed: false,
 			tags: ["Important", "X-mas", "Optional"],
-			user: "Rinor",
+			user: "Ed",
 		},
 		{
 			title: "task3",
 			completed: true,
 			tags: ["Food", "X-mas"],
-			user: "Rinor",
+			user: "Nico",
 		},
 		{
 			title: "task4",
@@ -29,13 +29,13 @@ const state = {
 			title: "task5",
 			completed: false,
 			tags: ["Hoxton", "X-mas"],
-			user: "Rinor",
+			user: "Ed",
 		},
 		{
 			title: "task 6",
 			completed: true,
 			tags: ["Food", "Javascript"],
-			user: "Rinor",
+			user: "Nico	",
 		},
 	],
 	searchText: "",
@@ -161,13 +161,19 @@ function createTodoLiEl(todo) {
 	textSection.className = "text-section";
 	const pEl = document.createElement("p");
 	pEl.className = "text";
-	pEl.textContent = `${todo.title} `;
+	pEl.textContent = todo.title;
+
+	textSection.append(pEl);
+
 	for (const tag of todo.tags) {
 		const emEl = document.createElement("em");
-		emEl.textContent = `(${tag})`;
-		pEl.append(emEl);
+		emEl.textContent = ` (${tag}) `;
+		textSection.append(emEl);
 	}
-	textSection.append(pEl);
+
+	const userSpan = document.createElement("span");
+	userSpan.textContent = ` - ${todo.user}`;
+	textSection.append(userSpan);
 
 	const buttonSection = document.createElement("div");
 	buttonSection.className = "button-section";
