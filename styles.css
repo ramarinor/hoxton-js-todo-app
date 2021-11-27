@@ -42,10 +42,14 @@ button:hover {
 	color: white;
 }
 
-form.add-item,
 form.search-todos {
 	display: grid;
 	grid-template-columns: 1fr auto;
+}
+
+form.add-item {
+	display: grid;
+	grid-template-columns: 1fr;
 }
 
 form .text-input {

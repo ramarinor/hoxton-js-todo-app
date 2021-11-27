@@ -222,12 +222,17 @@ addForm.addEventListener("submit", function (event) {
 	const newTodo = {
 		title: addForm.text.value,
 		completed: false,
-		tag: "Test",
 		user: "Rinor",
 	};
+	console.log(addForm.tags.value);
+	if (addForm.tags.value !== "") {
+		newTodo.tags = addForm.tags.value.split(", ");
+	} else {
+		newTodo.tags = [];
+	}
 	addTodo(newTodo);
 	addForm.reset();
-	renderIncompleteTodos();
+	render();
 });
 
 const searchForm = document.querySelector(".search-todos");
