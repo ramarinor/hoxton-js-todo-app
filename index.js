@@ -85,6 +85,7 @@ function getAllTags() {
 function render() {
 	renderIncompleteTodos();
 	renderCompltetedTodos();
+	renderTags();
 }
 function renderIncompleteTodos() {
 	todoListUl.innerHTML = "";
@@ -117,6 +118,9 @@ function renderTags() {
 		tagLabel.className = "tag-label";
 		const tagCheckbox = document.createElement("input");
 		tagCheckbox.setAttribute("type", "checkbox");
+		if (state.selectedTags.includes(tag)) {
+			tagCheckbox.checked = true;
+		}
 		tagCheckbox.addEventListener("click", function () {
 			if (tagCheckbox.checked) {
 				state.selectedTags.push(tag);
@@ -205,7 +209,6 @@ const completedListUl = document.querySelector(".completed-list");
 const tagsDiv = document.querySelector(".tags");
 
 render();
-renderTags();
 
 const showCompletedCheckbox = document.querySelector(".show-completed-checkbox");
 showCompletedCheckbox.addEventListener("click", function () {
