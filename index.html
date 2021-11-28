@@ -20,12 +20,18 @@
 					<button>Search</button>
 				</form>
 				<div class="tags"></div>
+				<div class="users">
+					<select name="selectedUser">
+						<option value=""></option>
+					</select>
+				</div>
 			</section>
 			<section class="add-todo-section">
 				<h2 class="title">ADD ITEM</h2>
 				<form class="add-item">
 					<input class="text-input" type="text" name="text" required minlength="3" placeholder="To do title" />
 					<input class="text-input" type="text" name="tags" placeholder="To do tags" />
+					<input class="text-input" type="text" name="username" placeholder="Username" />
 					<button type="submit">Add</button>
 				</form>
 			</section>
