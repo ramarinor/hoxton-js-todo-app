@@ -278,7 +278,6 @@ addForm.addEventListener("submit", function (event) {
 		completed: false,
 		user: addForm.username.value,
 	};
-	console.log(addForm.tags.value);
 	if (addForm.tags.value !== "") {
 		newTodo.tags = addForm.tags.value.split(", ");
 	} else {
