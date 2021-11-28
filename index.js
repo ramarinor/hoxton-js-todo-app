@@ -35,11 +35,12 @@ const state = {
 			title: "task 6",
 			completed: true,
 			tags: ["Food", "Javascript"],
-			user: "Nico	",
+			user: "Nico",
 		},
 	],
 	searchText: "",
 	selectedTags: [],
+	selectedUser: "",
 };
 
 //derived States
@@ -67,6 +68,11 @@ function getSelectedTodos() {
 			});
 		});
 	}
+	if (state.selectedUser.length > 0) {
+		selectedTodos = selectedTodos.filter(function (todo) {
+			return todo.user === state.selectedUser;
+		});
+	}
 	return selectedTodos;
 }
 function getAllTags() {
@@ -81,11 +87,24 @@ function getAllTags() {
 	return allTags;
 }
 
+function getAllUsers() {
+	const allUsers = [];
+
+	for (const todo of state.todos) {
+		if (!allUsers.includes(todo.user)) {
+			allUsers.push(todo.user);
+		}
+	}
+
+	return allUsers;
+}
+
 //rendering functions
 function render() {
 	renderIncompleteTodos();
 	renderCompltetedTodos();
 	renderTags();
+	renderUsernames();
 }
 function renderIncompleteTodos() {
 	todoListUl.innerHTML = "";
@@ -134,6 +153,29 @@ function renderTags() {
 		tagLabel.prepend(tagCheckbox);
 		tagsDiv.append(tagLabel);
 	}
+}
+function renderUsernames() {
+	usersDiv.innerHTML = "Choose a user ";
+	const allUsers = getAllUsers();
+	const selectEl = document.createElement("select");
+	selectEl.setAttribute("name", "selectedUser");
+	const optionEl = document.createElement("option");
+	optionEl.textContent = "All users";
+	optionEl.value = "";
+	selectEl.append(optionEl);
+	for (const user of allUsers) {
+		const optionEl = document.createElement("option");
+		optionEl.textContent = user;
+		optionEl.value = user;
+		optionEl.selected = optionEl.value === state.selectedUser;
+		selectEl.append(optionEl);
+	}
+	selectEl.addEventListener("change", function () {
+		state.selectedUser = selectEl.value;
+		render();
+	});
+
+	usersDiv.append(selectEl);
 }
 
 // create todo list element function
@@ -218,6 +260,7 @@ const todoListUl = document.querySelector(".todo-list");
 const completedSection = document.querySelector(".completed-section");
 const completedListUl = document.querySelector(".completed-list");
 const tagsDiv = document.querySelector(".tags");
+const usersDiv = document.querySelector(".users");
 
 render();
 
@@ -233,7 +276,7 @@ addForm.addEventListener("submit", function (event) {
 	const newTodo = {
 		title: addForm.text.value,
 		completed: false,
-		user: "Rinor",
+		user: addForm.username.value,
 	};
 	console.log(addForm.tags.value);
 	if (addForm.tags.value !== "") {
